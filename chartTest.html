@@ -1,0 +1,69 @@
+<html>
+<head>
+
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
+    <canvas id="myChart" height="200" width="1000"></canvas>
+    
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        ctx.arc(0,0,20,0,Math.PI,true);
+        ctx.stroke();
+        var myChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                
+                datasets: [{
+                    label: '# of Votes',
+                    data: [45,55],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 255, 255, 1)'
+                        
+                    ],
+                    borderColor: [
+                        'rgba(0,0,0,1)'
+                        
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                rotation: 1 * Math.PI,
+                circumference: 1 * Math.PI, // 원에서 각도 얼마나 사용할지.. 지금은 180도
+                cutoutPercentage: 90
+            }
+        });
+
+        var inner = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                
+                datasets: [{
+                    label: 'TEST',
+                    data: [0],
+                    backgroundColor: [
+                        'rgba(0, 0, 0, 0)',
+                        
+                        
+                    ],
+                    borderColor: [
+                        'rgba(0,0,0,0)'
+                        
+                    ],
+                    borderWidth: 2                       
+                }]
+            },
+            options: {
+                rotation: 1 * Math.PI,
+                circumference: 1 * Math.PI, // 원에서 각도 얼마나 사용할지.. 지금은 180도
+                cutoutPercentage: 90
+            }
+        });
+        
+    </script>
+</body>
+
+</html>

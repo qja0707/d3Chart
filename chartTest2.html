@@ -1,0 +1,66 @@
+<html>
+    <head></head>
+    <body>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+        <canvas id="myChart" height="200" width="1000"></canvas>
+        <script>
+            var ctx = document.getElementById('myChart').getContext('2d');
+            // Sets the default config for 'derivedBubble' to be the same as the bubble defaults.
+            // We look for the defaults by doing Chart.defaults[chartType]
+            // It looks like a bug exists when the defaults don't exist
+            Chart.defaults.derivedPie = Chart.defaults.doughnut;
+
+            // I think the recommend using Chart.controllers.bubble.extend({ extensions here });
+            var custom = Chart.controllers.doughnut.extend({
+                draw: function(ease) {
+                    // Call super method first
+                    Chart.controllers.doughnut.prototype.draw.call(this, ease);
+
+                    // Now we can do some custom drawing for this dataset. Here we'll draw a red box around the first point in each dataset
+                    var meta = this.getMeta();
+                    var pt0 = meta.data[0];
+                    var radius = pt0._view.radius;
+
+                    var ctx = this.chart.chart.ctx;
+                    ctx.save();
+                    ctx.strokeStyle = 'red';
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(pt0._view.x - radius, pt0._view.y - radius, 2 * radius, 2 * radius);
+                    ctx.restore();
+                }
+            });
+
+            // Stores the controller so that the chart initialization routine can look it up with
+            // Chart.controllers[type]
+            Chart.controllers.derivedPie = custom;
+
+            // Now we can create and use our new chart type
+            new Chart(ctx, {
+                type: 'derivedPie',
+                data: {
+                
+                datasets: [{
+                    label: '# of Votes',
+                    data: [45,55],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 255, 255, 1)'
+                        
+                    ],
+                    borderColor: [
+                        'rgba(0,0,0,1)'
+                        
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                rotation: 1 * Math.PI,
+                circumference: 1 * Math.PI, // 원에서 각도 얼마나 사용할지.. 지금은 180도
+                cutoutPercentage: 90
+            }
+            });
+        </script>
+
+    </body>
+</html>

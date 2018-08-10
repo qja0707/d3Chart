@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>D3.js GetStarted</title>
+  <!-- <link rel="stylesheet" href="style.css"/> -->
+</head>
+<body>
+
+<!-- D3.js 추가 -->
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<div>
+    <svg id = "c1" width="200" height="200"> </svg>
+</div>
+<div>
+    <svg id = "c2" width="400" height="400"> </svg>
+</div>
+
+
+<script>
+    var dummy = [45,55];
+    var dummy2 = [100];
+
+    makeChart("#c1", dummy);
+    makeChart("#c2", dummy2);
+
+    
+    function makeChart(svgObject, dummyData){
+        var data = [45,55];
+
+        var svg = d3.select(svgObject),
+            width = svg.attr("width"),
+            height = svg.attr("height"),
+            radius = Math.min(width, height)/2,
+            g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height+ ")");
+
+        var color = d3.scaleOrdinal(['#4daf4a','#377eb8','#ff7f00','#984ea3','#e41a1c']);
+
+        // Generate the pie
+        var pie = d3.pie().startAngle(-0.5 * Math.PI)
+                            .endAngle(0.5 * Math.PI);
+
+
+
+        // Generate the arcs
+        var arc = d3.arc()
+                    .innerRadius(90)        //pixel 단위
+                    .outerRadius(radius);
+
+        var arc2 = d3.arc().innerRadius(80)
+                        .outerRadius(85);
+
+        //Generate groups
+        var arcs = g.selectAll("arc")
+                    .data(pie(dummyData))
+                    .enter()
+                    .append("g")
+                    .attr("class", "arc")
+
+        //Draw arc paths
+        arcs.append("path")
+            .attr("fill", function(d, i) {
+                return color(i);
+            })
+            .attr("d", arc);    
+    }
+    /*
+    var data = [45,55];
+
+    var svg = d3.select("svg"),
+        width = svg.attr("width"),
+        height = svg.attr("height"),
+        radius = Math.min(width, height) / 2,
+        g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+    var color = d3.scaleOrdinal(['#4daf4a','#377eb8','#ff7f00','#984ea3','#e41a1c']);
+
+    // Generate the pie
+    var pie = d3.pie().startAngle(-0.5 * Math.PI)
+	                    .endAngle(0.5 * Math.PI);
+
+
+
+    // Generate the arcs
+    var arc = d3.arc()
+                .innerRadius(90)        //pixel 단위
+                .outerRadius(radius);
+
+    var arc2 = d3.arc().innerRadius(80)
+                    .outerRadius(85);
+
+    //Generate groups
+    var arcs = g.selectAll("arc")
+                .data(pie(data))
+                .enter()
+                .append("g")
+                .attr("class", "arc")
+
+    //Draw arc paths
+    arcs.append("path")
+        .attr("fill", function(d, i) {
+            return color(i);
+        })
+        .attr("d", arc);
+        */
+</script>
+</body>
+</html>
