@@ -34,7 +34,7 @@
             radius = Math.min(width, height)/2,
             g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height+ ")");
 
-        var color = d3.scaleOrdinal(['#4daf4a','#377eb8','#ff7f00','#984ea3','#e41a1c']);
+        var color = d3.scaleOrdinal(['transparent','#377eb8','#ff7f00','#984ea3','#e41a1c']); // 첫번째가 바탕. transparent 가 투명 인 듯.
 
         // Generate the pie
         var pie = d3.pie().startAngle(-0.5 * Math.PI)
@@ -63,6 +63,12 @@
                 return color(i);
             })
             .attr("d", arc);    
+
+        arcs.append("path")
+            .attr("fill", function(d, i) {
+                return color(i);
+            })
+            .attr("d", arc2); 
     }
     /*
     var data = [45,55];
